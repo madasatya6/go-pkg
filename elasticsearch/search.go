@@ -32,9 +32,11 @@ func (s *Elastic) Type(name string) {
 	s.TypeName = name 
 }
 
-func (s *Elastic) Search(params map[string]interface{}, data *interface{})  {
+func (s *Elastic) Search(params map[string]interface{}) string {
 
-	var result []data
+	var datas []interface{}
+	var result string
+
 	searchSource := elastic.NewSearchSource()
 
 	if params == nil {
@@ -52,11 +54,13 @@ func (s *Elastic) Search(params map[string]interface{}, data *interface{})  {
 	queryStr, err := searchSource.Source()
 	if err != nil {
 		fmt.Println("[esclient][GetResponse]err during query marshal= ", err)
+		return result
 	}
 
 	queryJs, err := json.Marshal(queryStr)
 	if err != nil {
 		fmt.Println("[esclient][GetResponse]err during query marshal= ", err)
+		return result
 	}
 
 	fmt.Println("[esclient]Final ESQuery=\n", string(queryJs))
@@ -71,23 +75,28 @@ func (s *Elastic) Search(params map[string]interface{}, data *interface{})  {
 	searchResult, err := searchService.Do(s.Ctx)
 	if err != nil {
 		fmt.Println("[ProductsES][GetPIds]Error=", err)
-		return
+		return result
 	}
 
 	for _, hit := range searchResult.Hits.Hits { 
+		var data interface{}
 		if err := json.Unmarshal(hit.Source, &data); err != nil {
 			fmt.Println("[Getting Students][Unmarshal] Err=", err)
+			continue
 		}
 
-		result = append(result, data)
+		datas = append(datas, data)
 	}
 
 	if err != nil {
 		fmt.Println("Fetching data fail: ", err)
-		return 
 	} else {
-		for _, s := range  {
-			fmt.Printf("Student found Name: %s, Age: %d, Score: %f \n", s.Name, s.Age, s.AverageScore)
+		dataByte, err := json.Marshal(datas)
+		if err != nil {
+			return result
 		}
+		result = string(dataByte)
 	}
+
+	return result
 }
