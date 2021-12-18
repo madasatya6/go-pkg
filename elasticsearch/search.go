@@ -16,13 +16,23 @@ import (
 type Elastic struct{
 	Conn *elastic.Client
 	Ctx context.Context
+	IndexName string 
+	TypeName string 
 }
 
 func New(conn *elastic.Client, ctx context.Context) Elastic  {
 	return Elastic{conn, ctx}
 }
 
-func (s *Elastic) Search(params map[string]interface{}, data *interface{}) {
+func (s *Elastic) Index(name string) {
+	s.IndexName = name 
+}
+
+func (s *Elastic) Type(name string) {
+	s.TypeName = name 
+}
+
+func (s *Elastic) Search(params map[string]interface{}, data *interface{})  {
 
 	var result []data
 	searchSource := elastic.NewSearchSource()
@@ -32,8 +42,9 @@ func (s *Elastic) Search(params map[string]interface{}, data *interface{}) {
 	}
 	if len(params) > 0 {
 		bq := elastic.NewBoolQuery()
-		bq = bq.Must(elastic.NewTermQuery("nama", search))
-		bq = bq.Must(elastic.NewTermQuery("divisi", "backend"))
+		for key, value := range params {
+			bq = bq.Must(elastic.NewTermQuery(key, value))
+		}
 		searchSource.Query(bq)
 	}
 
@@ -50,28 +61,32 @@ func (s *Elastic) Search(params map[string]interface{}, data *interface{}) {
 
 	fmt.Println("[esclient]Final ESQuery=\n", string(queryJs))
 	/* Until this block */
+	
+	if s.TypeName == "" {
+		searchService := s.Conn.Search().Index(s.IndexName).SearchSource(searchSource)
+	} else {
+		searchService := s.Conn.Search().Index(s.IndexName).Type(s.TypeName).SearchSource(searchSource)
+	}
 
-	searchService := esclient.Search().Index("students").SearchSource(searchSource)
-
-	searchResult, err := searchService.Do(ctx)
+	searchResult, err := searchService.Do(s.Ctx)
 	if err != nil {
 		fmt.Println("[ProductsES][GetPIds]Error=", err)
 		return
 	}
 
-	for _, hit := range searchResult.Hits.Hits {
-		var student Student 
-		if err := json.Unmarshal(hit.Source, &student); err != nil {
+	for _, hit := range searchResult.Hits.Hits { 
+		if err := json.Unmarshal(hit.Source, &data); err != nil {
 			fmt.Println("[Getting Students][Unmarshal] Err=", err)
 		}
 
-		students = append(students, student)
+		result = append(result, data)
 	}
 
 	if err != nil {
-		fmt.Println("Fetching student fail: ", err)
+		fmt.Println("Fetching data fail: ", err)
+		return 
 	} else {
-		for _, s := range students {
+		for _, s := range  {
 			fmt.Printf("Student found Name: %s, Age: %d, Score: %f \n", s.Name, s.Age, s.AverageScore)
 		}
 	}
