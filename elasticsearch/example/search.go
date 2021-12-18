@@ -14,10 +14,11 @@ func main(){
 	}
 
 	ctx := context.Background()
+	
 	search := elastic.New(client, ctx)
-	resJson := search.Index("students").
-		Type("doc").
-		Search(nil)
+	search.Index("students")
+	search.Type("doc")
+	resJson := search.Search(nil)
 
 	fmt.Println("Result: ", resJson)
 }
