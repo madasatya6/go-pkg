@@ -21,10 +21,11 @@ type Elastic struct{
 }
 
 func New(conn *elastic.Client, ctx context.Context) Elastic  {
-	return Elastic{
+	es := Elastic{
 		Conn: conn, 
 		Ctx: ctx,
 	}
+	return es
 }
 
 func (s *Elastic) Index(name string) {
