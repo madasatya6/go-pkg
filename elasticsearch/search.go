@@ -66,10 +66,11 @@ func (s *Elastic) Search(params map[string]interface{}) string {
 	fmt.Println("[esclient]Final ESQuery=\n", string(queryJs))
 	/* Until this block */
 	
+	var searchService string
 	if s.TypeName == "" {
-		searchService := s.Conn.Search().Index(s.IndexName).SearchSource(searchSource)
+		searchService = s.Conn.Search().Index(s.IndexName).SearchSource(searchSource)
 	} else {
-		searchService := s.Conn.Search().Index(s.IndexName).Type(s.TypeName).SearchSource(searchSource)
+		searchService = s.Conn.Search().Index(s.IndexName).Type(s.TypeName).SearchSource(searchSource)
 	}
 
 	searchResult, err := searchService.Do(s.Ctx)
