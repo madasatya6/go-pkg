@@ -27,7 +27,7 @@ var Directory = "app/static/barcode/"
 var Extension = ".png"
 var Zone = "Asia/Jakarta"
 
-type Barcode struct {
+type Config struct {
 	Directory string 
 	Extension string
 	Zone string 
@@ -39,7 +39,7 @@ type Barcode struct {
 /* @return image name with error
 *  Main Function : GenerateImage()
 */
-func GenerateImage(bc Barcode) (string, error) {
+func GenerateImage(bc Config) (string, error) {
 
 	var key string = bc.Key 
 	var width int = bc.Width
