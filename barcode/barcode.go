@@ -27,10 +27,35 @@ var Directory = "app/static/barcode/"
 var Extension = ".png"
 var Zone = "Asia/Jakarta"
 
+type Barcode struct {
+	Directory string 
+	Extension string
+	Zone string 
+	Key string 
+	Width int 
+	Height int
+}
+
 /* @return image name with error
 *  Main Function : GenerateImage()
 */
-func GenerateImage(key string, width, height int) (string, error) {
+func GenerateImage(bc Barcode) (string, error) {
+
+	var key string = bc.Key 
+	var width int = bc.Width
+	var height int = bc.Height
+
+	if bc.Directory != "" {
+		Directory = bc.Directory
+	}
+
+	if bc.Extension != "" {
+		Extension = bc.Extension
+	}
+
+	if bc.Zone != "" {
+		Zone = bc.Zone
+	}
 
 	var imageName string = GenerateRandomName("qrcode")
 
