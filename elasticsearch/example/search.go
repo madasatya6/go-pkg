@@ -14,11 +14,14 @@ func main(){
 	}
 
 	ctx := context.Background()
-	
+
 	search := elastic.New(client, ctx)
 	search.Index("students")
 	search.Type("doc")
-	resJson := search.Search(nil)
+	resJson := search.Search(map[string]interface{}{
+		"nama": "bayu",
+		"ipk": 3.8,
+	})
 
 	fmt.Println("Result: ", resJson)
 }
