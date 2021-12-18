@@ -24,6 +24,8 @@ func New(conn *elastic.Client, ctx context.Context) Elastic  {
 	es := Elastic{
 		Conn: conn, 
 		Ctx: ctx,
+		IndexName: "",
+		TypeName: "",
 	}
 	return es
 }
