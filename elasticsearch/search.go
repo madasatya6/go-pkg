@@ -20,12 +20,10 @@ type Elastic struct{
 	TypeName string 
 }
 
-func New(conn *elastic.Client, ctx context.Context) Elastic  {
+func New(conn *elastic.Client, ctx context.Context) Elastic {
 	es := Elastic{
 		Conn: conn, 
 		Ctx: ctx,
-		IndexName: "",
-		TypeName: "",
 	}
 	return es
 }
