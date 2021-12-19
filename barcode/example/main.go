@@ -6,13 +6,7 @@ import (
 )
 
 func main() {
-	unikstr, err := barcode.GenerateImage( barcode.Config{
-		Directory: "assets/barcode",
-		Extension: ".jpg",
-		Key: "golang",
-		Width: 200,
-		Height: 200,
-	})
+	unikstr, err := barcode.GenerateImage(nil)
 
 	if err != nil {
 		fmt.Printf("Error: %w", err)
