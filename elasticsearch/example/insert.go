@@ -3,12 +3,13 @@ package main
 import (
 	"fmt"
 	"context"
+	"encoding/json"
 
 	elastic "github.com/madasatya6/go-pkg/elasticsearch"
 )
 
 func main(){
-	client, err := elastic.GetESClient("http://localhost:9200")
+	esclient, err := elastic.GetESClient("http://localhost:9200")
 	if err != nil {
 		fmt.Println("Error init: ", err.Error())
 		return
@@ -23,15 +24,21 @@ func main(){
 		"harga": 12999,
 	}
 
-	query := elastic.New(client, ctx)
-	query.Index("produk")
-	query.Type("doc")
-	err = query.Insert(saveData);
+	dataJson, err := json.Marshal(saveData)
 	if err != nil {
-		fmt.Println("Error insert: ", err.Error())
-		return 
+		panic(err)
 	}
 
-	fmt.Println("Result: berhasil insert elaticsearch")
+	bodyJson := string(dataJson)
+	ind, err := esclient.Index().
+		Index("students").
+		BodyJson(bodyJson).
+		Do(ctx)
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("[Elastic][InsertProduct]Insertion Successful ind: ", ind)
 }
 
