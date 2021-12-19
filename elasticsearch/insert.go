@@ -10,8 +10,8 @@ import (
 * insert data
 */
 func (s *Elastic) Insert(data map[string]interface{}) error {
-	var response string
-	dataJson, err := json.Marshal(data))
+	var response *elastic.IndexResponse
+	dataJson, err := json.Marshal(data)
 	if err != nil {
 		return err 
 	}
