@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	unikstr, err := barcode.GenerateImage(nil)
+	unikstr, err := barcode.GenerateImage("go",200,200)
 
 	if err != nil {
 		fmt.Printf("Error: %w", err)
