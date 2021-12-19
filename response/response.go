@@ -1,11 +1,11 @@
-package utils
+package response
 
 import (
 	"encoding/json"
 	"net/http"
 )
 
-func ResponseJSON(w http.ResponseWriter, p interface{}, status int){
+func JSON(w http.ResponseWriter, p interface{}, status int){
 	
 	ubahkeByte, err := json.Marshal(p)
 	
