@@ -3,6 +3,8 @@ package elasticsearch
 import (
 	"encoding/json"
 	"fmt"
+
+	elastic "github.com/olivere/elastic/v7"
 )
 
 /******
