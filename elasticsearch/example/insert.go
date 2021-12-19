@@ -29,6 +29,6 @@ func main(){
 		return 
 	}
 
-	fmt.Println("Result: ", resJson)
+	fmt.Println("Result: berhasil insert elaticsearch")
 }
 
