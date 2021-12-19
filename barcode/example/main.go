@@ -7,7 +7,7 @@ import (
 
 func main() {
 	unikstr, err := barcode.GenerateImage(barcode.Config{
-		Directory: "assets/barcode",
+		Directory: "assets/barcode/",
 		Extension: ".jpg",
 		Key: "golang",
 		Width: 200,
