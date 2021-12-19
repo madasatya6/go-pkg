@@ -21,22 +21,16 @@ func (s *Elastic) Insert(data map[string]interface{}) error {
 	bodyJson := string(dataJson)
 	
 	if s.TypeName != "" {
-		service = s.Conn.Index().
-			Index(s.IndexName).
-			Type(s.TypeName).
-			BodyJson(bodyJson)
+		service = s.Conn.Index().Index(s.IndexName).Type(s.TypeName).BodyJson(bodyJson)
 	} else {
-		service = s.Conn.Index().
-			Index(s.IndexName).
-			BodyJson(bodyJson)
+		service = s.Conn.Index().Index(s.IndexName).BodyJson(bodyJson)
 	}
-
+	
 	response, err := service.Do(s.Ctx)
-
 	if err != nil {
 		return err 
 	}
-
+	
 	fmt.Println("[Elastic][InsertProduct]Insertion Successful response: ", response)
 	return nil
 }
