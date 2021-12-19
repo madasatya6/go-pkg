@@ -22,7 +22,7 @@ func main(){
 	}
 
 	query := elastic.New(client, ctx)
-	query.Index("students")
+	query.Index("produk")
 	query.Type("doc")
 	if err := query.Insert(saveData); err != nil {
 		fmt.Println("Error insert: ", err.Error())

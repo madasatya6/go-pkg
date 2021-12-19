@@ -12,26 +12,26 @@ import (
 * insert data
 */
 func (s *Elastic) Insert(data map[string]interface{}) error {
-	var response *elastic.IndexResponse
+	var service *elastic.IndexService
 	dataJson, err := json.Marshal(data)
 	if err != nil {
 		return err 
 	}
 
 	bodyJson := string(dataJson)
-
+	
 	if s.TypeName != "" {
-		response, err = s.Conn.Index().
+		service = s.Conn.Index().
 			Index(s.IndexName).
 			Type(s.TypeName).
-			BodyJson(bodyJson).
-			Do(s.Ctx)
+			BodyJson(bodyJson)
 	} else {
-		response, err = s.Conn.Index().
+		service = s.Conn.Index().
 			Index(s.IndexName).
-			BodyJson(bodyJson).
-			Do(s.Ctx)
+			BodyJson(bodyJson)
 	}
+
+	response, err := service.Do(s.Ctx)
 
 	if err != nil {
 		return err 
