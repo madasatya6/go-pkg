@@ -47,7 +47,7 @@ func Connect(w http.ResponseWriter, r *http.Request, Type string) {
 	Connections := append(Connections, &currentConn)
 
 	if Type == ONLINE {
-		go handleOnline(&currentConn, connections)
+		go handleOnline(&currentConn, Connections)
 	}
 } 
 
