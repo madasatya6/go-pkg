@@ -1,6 +1,7 @@
 package websocket
 
 import (
+	"fmt"
 	gubrak "github.com/novalagung/gubrak/v2"
 )
 
