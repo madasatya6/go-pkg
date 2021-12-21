@@ -1,19 +1,16 @@
 package websocket
 
 import (
-	"fmt"
 	"log"
 	"net/http"
-	"strings"
 
 	"github.com/gorilla/websocket"
-	gubrak "github.com/novalagung/gubrak/v2"
 )
 
 type M map[string]interface{}
 
 const IS_ONLINE = "Online"
-const IS_LEAVE = "Leave"
+const HAS_LEAVE = "Leave"
 const IS_JOIN_CHAT = "Join Chat" 
 const IS_CHAT = "Chat"
 
@@ -36,7 +33,7 @@ type WebSocketConnection struct {
 }
 
 // main function
-func Do(w http.ResponseWriter, r *http.Request, Type string) {
+func Connect(w http.ResponseWriter, r *http.Request, Type string) {
 	currentGorillaConn, err := websocket.Upgrade(w, r, w.Header(), 1024, 1024)
 	if err != nil {
 		log.Println("Error init websocket : ", err.Error())
@@ -53,5 +50,7 @@ func Do(w http.ResponseWriter, r *http.Request, Type string) {
 		go handleOnline(&currentConn, connections)
 	}
 } 
+
+
 
 
