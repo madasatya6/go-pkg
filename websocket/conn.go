@@ -12,12 +12,12 @@ import (
 
 type M map[string]interface{}
 
-const JUST_ONLINE = "Online"
-const JUST_LEAVE = "Leave"
-const JUST_JOIN_CHAT = "Join Chat" 
-const MESSAGE_CHAT = "Chat"
+const IS_ONLINE = "Online"
+const IS_LEAVE = "Leave"
+const IS_JOIN_CHAT = "Join Chat" 
+const IS_CHAT = "Chat"
 
-var connections = make([]*WebSocketConnection, 0)
+var Connections = make([]*WebSocketConnection, 0)
 
 type SocketPayload struct {
 	Message string 
@@ -31,8 +31,27 @@ type SocketResponse struct {
 
 type WebSocketConnection struct {
 	*websocket.Conn 
-	Username string 
-	Admin bool
+	Email string 
+	Role string
 }
+
+// main function
+func Do(w http.ResponseWriter, r *http.Request, Type string) {
+	currentGorillaConn, err := websocket.Upgrade(w, r, w.Header(), 1024, 1024)
+	if err != nil {
+		log.Println("Error init websocket : ", err.Error())
+		return 
+	}
+
+	email := r.URL.Query().Get("email")
+	role := r.URL.Query().Get("role")
+
+	currentConn := WebSocketConnection{Conn: currentGorillaConn, Email: email, Role: role}
+	Connections := append(Connections, &currentConn)
+
+	if Type == ONLINE {
+		go handleOnline(&currentConn, connections)
+	}
+} 
 
 
