@@ -44,7 +44,7 @@ func Connect(w http.ResponseWriter, r *http.Request, Type string) {
 	role := r.URL.Query().Get("role")
 
 	currentConn := WebSocketConnection{Conn: currentGorillaConn, Email: email, Role: role}
-	Connections := append(Connections, &currentConn)
+	Connections = append(Connections, &currentConn)
 
 	if Type == ONLINE {
 		go handleOnline(&currentConn, Connections)
