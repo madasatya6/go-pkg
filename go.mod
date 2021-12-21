@@ -4,6 +4,8 @@ go 1.17
 
 require (
 	github.com/boombuler/barcode v1.0.1
+	github.com/gorilla/websocket v1.4.2
+	github.com/novalagung/gubrak/v2 v2.0.1
 	github.com/olivere/elastic/v7 v7.0.30
 )
 
