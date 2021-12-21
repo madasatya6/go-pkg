@@ -3,6 +3,7 @@ package websocket
 import (
 	"log"
 	"net/http"
+	"database/sql"
 
 	"github.com/gorilla/websocket"
 )
@@ -10,6 +11,7 @@ import (
 type M map[string]interface{}
 
 const IS_ONLINE = "Online"
+const OFFLINE = "offline"
 const HAS_LEAVE = "Leave"
 const IS_JOIN_CHAT = "Join Chat" 
 const IS_CHAT = "Chat"
@@ -32,8 +34,15 @@ type WebSocketConnection struct {
 	Role string
 }
 
+type Params struct {
+	Feature string 
+	DB 		*sql.DB
+	Table 	string 
+	Field 	string
+}
+
 // main function
-func Connect(w http.ResponseWriter, r *http.Request, Type string) {
+func Connect(w http.ResponseWriter, r *http.Request, params Params) {
 	currentGorillaConn, err := websocket.Upgrade(w, r, w.Header(), 1024, 1024)
 	if err != nil {
 		log.Println("Error init websocket : ", err.Error())
@@ -46,8 +55,8 @@ func Connect(w http.ResponseWriter, r *http.Request, Type string) {
 	currentConn := WebSocketConnection{Conn: currentGorillaConn, Email: email, Role: role}
 	Connections = append(Connections, &currentConn)
 
-	if Type == ONLINE {
-		go handleOnline(&currentConn, Connections)
+	if params.Feature == ONLINE {
+		go handleOnline(&currentConn, Connections, params)
 	}
 } 
 

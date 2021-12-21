@@ -28,6 +28,10 @@ func broadcastMessage(currentConn *WebSocketConnection, kind, message string) {
 	}
 }
 
+func updateDB(params Params, value string) error {
+	
+}
+
 
 
 
