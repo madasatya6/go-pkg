@@ -2,6 +2,7 @@ package websocket
 
 import (
 	"log"
+	"context"
 	"net/http"
 	"database/sql"
 
@@ -39,6 +40,7 @@ type Params struct {
 	DB 		*sql.DB
 	Table 	string 
 	Field 	string
+	Context context.Context
 }
 
 // main function

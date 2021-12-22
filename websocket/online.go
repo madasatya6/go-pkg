@@ -14,14 +14,14 @@ func handleOnline(currentConn *WebSocketConnection, connections []*WebSocketConn
 	}()
 
 	broadcastMessage(currentConn, IS_ONLINE, "")
-	updateDB(params, ONLINE)
+	updateDB(currentConn, params, ONLINE)
 
 	for {
 		payload := SocketPayload{}
 		if err := currentConn.ReadJSON(&payload); err != nil {
 			if strings.Contains(err.Error(), "websocket: close") {
 				broadcastMessage(currentConn, HAS_LEAVE, "")
-				updateDB(params, OFFLINE)
+				updateDB(currentConn, params, OFFLINE)
 				ejectConnection(currentConn)
 				return 
 			}

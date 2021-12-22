@@ -1,6 +1,8 @@
 package websocket
 
 import (
+	"log"
+	sq "github.com/Masterminds/squirrel"
 	gubrak "github.com/novalagung/gubrak/v2"
 )
 
@@ -28,8 +30,19 @@ func broadcastMessage(currentConn *WebSocketConnection, kind, message string) {
 	}
 }
 
-func updateDB(params Params, value string) error {
-	
+func updateDB(currentConn *WebSocketConnection, params Params, value string) error {
+	query, args, err := sq.Update(params.Table).Set(params.Field, value).Where(sq.Eq{"email":[]string{currentConn.Email}}).ToSql()
+	if err != nil {
+		log.Println("Squirel error when update socket: ", err.Error())
+		return err 
+	}
+
+	_, err = params.DB.Exec(query, args...)
+	if err != nil {
+		log.Println("An error occurred while updating websocket: ", err.Error())
+		return err
+	} 
+	return nil
 }
 
 
