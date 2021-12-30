@@ -12,7 +12,6 @@ import (
 type M map[string]interface{}
 
 const IS_ONLINE = "Online"
-const OFFLINE = "offline"
 const HAS_LEAVE = "Leave"
 const IS_JOIN_CHAT = "Join Chat" 
 const IS_CHAT = "Chat"
@@ -20,7 +19,10 @@ const IS_CHAT = "Chat"
 var Connections = make([]*WebSocketConnection, 0)
 
 type SocketPayload struct {
-	Message string 
+	Message 	string 
+	SendToEmail string // to email 
+	TargetRole	string // admin & customer
+	Command 	string // broadcast & personal
 }
 
 type SocketResponse struct {
@@ -41,6 +43,9 @@ type Params struct {
 	Table 	string 
 	Field 	string
 	Context context.Context
+	
+	InsertChat func(currentConn *WebSocketConnection, payload SocketPayload) error
+	UpdateStatus func(currentConn *WebSocketConnection, status string) error
 }
 
 // main function
@@ -57,9 +62,7 @@ func Connect(w http.ResponseWriter, r *http.Request, params Params) {
 	currentConn := WebSocketConnection{Conn: currentGorillaConn, Email: email, Role: role}
 	Connections = append(Connections, &currentConn)
 
-	if params.Feature == ONLINE {
-		go handleOnline(&currentConn, Connections, params)
-	}
+	go handleIO(&currentConn, Connections, params)
 } 
 
 
