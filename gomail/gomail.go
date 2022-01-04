@@ -14,7 +14,7 @@ import (
 * Send mail with gomail
 */
 type MailInterface interface{
-	Send()
+	Send() error
 }
 
 type Config struct {
@@ -63,7 +63,7 @@ func (config *Config) Send() error {
 
     mailer := gomail.NewMessage()
 	mailer.SetHeader("From", config.SENDER_NAME)
-	mailer.SetHeader("To", config.To)
+	mailer.SetHeader("To", params.To)
 	
 	if len(params.EmailCC) > 0 {
 		mailer.SetAddressHeader("Cc", strings.Join(params.EmailCC, ","), params.TitleCC)
