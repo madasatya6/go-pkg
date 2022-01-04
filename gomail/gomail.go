@@ -23,15 +23,17 @@ type Config struct {
 	SENDER_NAME 	string 	`example:"PT Admin <admin@gmail.com>"`
 	AUTH_EMAIL 		string	`example:"admin@gmail.com"`
 	AUTH_PASSWORD 	string	`example:"123456"`
-	Params			struct{
-		Subject 	string 
-		To			string // email tujuan
-		EmailCC 	[]string 
-		TitleCC 	string 
-		ViewPath	string 
-		Data 		map[string]interface{}
-		FileAttachment 	[]string 
-	}
+	Params			Params
+}
+
+type Params struct{
+	Subject 	string 
+	To			string // email tujuan
+	EmailCC 	[]string 
+	TitleCC 	string 
+	ViewPath	string 
+	Data 		map[string]interface{}
+	FileAttachment 	[]string 
 }
 
 func New(config Config) MailInterface {
