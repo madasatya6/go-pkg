@@ -37,9 +37,7 @@ type Params struct{
 }
 
 func New(config Config) MailInterface {
-	var mail MailInterface
-	mail = &config
-	return mail
+	return &config
 }
 
 func (config *Config) Send() error {
