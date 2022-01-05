@@ -11,6 +11,8 @@ import (
 	"time"
 	"net/http"
 	"mime/multipart"
+
+	"github.com/madasatya6/go-pkg/tools"
 )
 
 /**
@@ -106,6 +108,10 @@ func UploadFileAndRename(r *http.Request, max_size int64, form_name string, uplo
 
 	// file in kb
 	max_size = 1024 * max_size
+
+	if err := tools.CreateOrCheckDirectory(upload_path); err != nil {
+		return file_name, err
+	}
 
 	if err := r.ParseMultipartForm(max_size); err != nil {
 		return file_name, err 
@@ -228,6 +234,10 @@ func UploadMultipleFileAndRename(file *multipart.FileHeader, upload_path string,
 	
 	var file_name string
 
+	if err := tools.CreateOrCheckDirectory(upload_path); err != nil {
+		return file_name, err
+	}
+
 	src, err := file.Open()
 	if err != nil {
 		return file_name, err
@@ -261,3 +271,4 @@ func UploadMultipleFileAndRename(file *multipart.FileHeader, upload_path string,
 
 	return file_name, nil
 }
+
