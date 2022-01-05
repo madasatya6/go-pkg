@@ -15,7 +15,7 @@ const port string = "9090"
 func tampilForm(w http.ResponseWriter, r *http.Request){
 	
 	var tmpl = template.Must(template.New("form").
-		ParseFiles("views/template-post/template-form.html"))
+		ParseFiles("form.html"))
 		
 	err := tmpl.Execute(w, nil)
 

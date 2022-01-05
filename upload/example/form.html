@@ -1,0 +1,17 @@
+{{define "form"}}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Learning html/template Actions</title>
+    </head>
+    <body>
+		<h3>Form Data Diri</h3>
+		<br/>
+		<form action="/upload" method="post" enctype="multipart/form-data">
+			<input type="text" name="nama" placeholder="Nama"/> <br/>
+			<input type="file" name="image" placeholder="Foto" /> <br/>
+			<input type="submit" name="save" value="Posting"/>
+		</form>
+    </body>
+</html>
+{{end}}
