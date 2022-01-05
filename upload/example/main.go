@@ -31,8 +31,37 @@ func upload_file (w http.ResponseWriter, r *http.Request){
 	if r.Method == "POST" {
 		
 		var name = r.FormValue("filename")
+		fileName, err := upload.UploadFileAndRename(r, 1000, "image", "uploads/", name)
+		if err != nil {
+			var data = map[string]interface{}{
+				"status": false,
+				"message": err.Error(),
+				"data": nil,
+			}
+			response.JSON(w, data, http.StatusBadRequest)
+			return
+		}
+
+		var data = map[string]interface{}{
+			"status": true,
+			"message": "Data berhasil diupload!",
+			"data": map[string]interface{}{
+				"filename": "uploads/"+ fileName,
+			},
+		}
+		response.JSON(w, data, http.StatusOK)
+		return
+	} 
+	
+	http.Error(w, "Tidak diizinkan.", http.StatusNotFound)
+	return
+}
+
+func validasi_upload(next http.Handler) http.Handler {
+
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
 		
-		fileName, err := upload.FileValidate(r, "image", []string{"png","jpg","jpeg","bmp"}, 1, 1000, true)
+		_, err := upload.FileValidate(r, "image", []string{"png","jpg","jpeg","bmp"}, 1, 1000, true)
 		if err != nil {
 			
 			var data = map[string]interface{}{
@@ -45,19 +74,9 @@ func upload_file (w http.ResponseWriter, r *http.Request){
 			return
 		}
 
-		var data = map[string]interface{}{
-			"status": true,
-			"message": "Data berhasil diupload!",
-			"data": map[string]interface{}{
-				"filename": fileName,
-			},
-		}
-		response.JSON(w, data, http.StatusOK)
+		next.ServeHTTP(w,r)
 		return
-	} 
-	
-	http.Error(w, "Tidak diizinkan.", http.StatusNotFound)
-	return
+	})
 }
 
 func main(){
