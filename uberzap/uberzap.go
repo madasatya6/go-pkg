@@ -7,7 +7,7 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
-
+// logging with a file log
 // reference uberzap: https://medium.com/@gustavo.nabakseixas/go-using-uber-zap-in-your-application-135756f23bdc
 func createDirectoryIfNotExists() {
 	// create log directory
