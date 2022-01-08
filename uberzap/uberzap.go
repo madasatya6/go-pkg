@@ -3,6 +3,7 @@ package uberzap
 import (
 	"os"
 	"time"
+	"fmt"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
