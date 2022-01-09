@@ -14,6 +14,7 @@ require (
 	github.com/novalagung/gubrak/v2 v2.0.1
 	github.com/olivere/elastic/v7 v7.0.31
 	go.uber.org/zap v1.20.0
+	golang.org/x/crypto v0.0.0-20211215153901-e495a2d5b3d3
 	gopkg.in/go-playground/validator.v9 v9.31.0
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 )
