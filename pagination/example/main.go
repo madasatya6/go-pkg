@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"html/template"
 	"log"
 
 	"github.com/madasatya6/go-pkg/pagination"
@@ -11,6 +10,12 @@ import (
 )
 
 const port string = "9090"
+
+type UserList struct{
+	ID int `json:"id"`
+	Nama string `json:"nama"`
+	Email string `json:"email"`
+}
 
 func Pagination(w http.ResponseWriter, r *http.Request){
 	
