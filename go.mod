@@ -4,7 +4,9 @@ go 1.17
 
 require (
 	github.com/Masterminds/squirrel v1.5.2
+	github.com/astaxie/beego v1.12.3
 	github.com/boombuler/barcode v1.0.1
+	github.com/flosch/pongo2 v0.0.0-20200913210552-0d938eb266f3
 	github.com/go-playground/locales v0.14.0
 	github.com/go-playground/universal-translator v0.18.0
 	github.com/go-sql-driver/mysql v1.6.0
@@ -27,4 +29,5 @@ require (
 	go.uber.org/multierr v1.6.0 // indirect
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
+	gopkg.in/yaml.v2 v2.2.8 // indirect
 )
